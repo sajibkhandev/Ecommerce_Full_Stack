@@ -2,6 +2,7 @@ const blackInput = require("../helpers/blankInput");
 const emailRegex = require("../helpers/emailRegex");
 const passwordRegex = require("../helpers/passwordRegex");
 const User=require('../models/userSchema')
+const bcrypt = require('bcrypt');
 const registrationController= async (req,res)=>{
    let {username,email,password}=req.body
 
@@ -26,13 +27,20 @@ const registrationController= async (req,res)=>{
             res.send({error:`${email} aleady`})
 
         }else{
-             let user=new User({
+
+            bcrypt.hash(password, 10, function(err, hash) {
+            let user=new User({
             username:username,
             email:email,
-            password:password
+            password:hash
         })
         user.save()
-        res.send(user)
+        res.send({
+            username:user.username,
+            email:user.email,
+         })
+       });
+           
         }
        
     }
