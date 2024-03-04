@@ -5,6 +5,11 @@ const userSchema = new Schema({
     username:String,
     email:String,
     password:String,
+    role:{
+        type:String,
+        enum:["user","merchant","admin"],
+        default:"user"
+    }
 
 
 })

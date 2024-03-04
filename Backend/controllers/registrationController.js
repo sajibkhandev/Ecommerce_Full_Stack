@@ -38,6 +38,7 @@ const registrationController= async (req,res)=>{
         res.send({
             username:user.username,
             email:user.email,
+            role:user.role
          })
        });
            
