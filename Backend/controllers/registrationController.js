@@ -1,5 +1,6 @@
 const blackInput = require("../helpers/blankInput");
 const emailRegex = require("../helpers/emailRegex");
+const passwordRegex = require("../helpers/passwordRegex");
 
 const registrationController=(req,res)=>{
    let {username,email,password}=req.body
@@ -14,7 +15,10 @@ const registrationController=(req,res)=>{
     }
     else if(blackInput(password)){
         res.send({error:"Password is required"})
-    }else{
+    }else if(passwordRegex(password)){
+        res.send({error:"Mimimun"})
+    }
+    else{
         res.send(req.body)
     }
 
