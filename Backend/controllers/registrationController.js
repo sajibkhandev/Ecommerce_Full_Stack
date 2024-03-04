@@ -3,6 +3,7 @@ const emailRegex = require("../helpers/emailRegex");
 const passwordRegex = require("../helpers/passwordRegex");
 const User=require('../models/userSchema')
 const bcrypt = require('bcrypt');
+const otpGenerator = require('otp-generator')
 const registrationController= async (req,res)=>{
    let {username,email,password}=req.body
 
@@ -27,12 +28,15 @@ const registrationController= async (req,res)=>{
             res.send({error:`${email} aleady`})
 
         }else{
+            let otp=otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
 
             bcrypt.hash(password, 10, function(err, hash) {
             let user=new User({
             username:username,
             email:email,
-            password:hash
+            password:hash,
+            otp:otp
+
         })
         user.save()
         res.send({

@@ -11,7 +11,6 @@ mongodbConfig()
 
 
 
-
 app.use(express.json())
 
 app.use(route)
