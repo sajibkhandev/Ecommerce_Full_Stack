@@ -1,8 +1,8 @@
 const blackInput = require("../helpers/blankInput");
 const emailRegex = require("../helpers/emailRegex");
 const passwordRegex = require("../helpers/passwordRegex");
-
-const registrationController=(req,res)=>{
+const User=require('../models/userSchema')
+const registrationController= async (req,res)=>{
    let {username,email,password}=req.body
 
     
@@ -19,7 +19,22 @@ const registrationController=(req,res)=>{
         res.send({error:"Mimimun"})
     }
     else{
-        res.send(req.body)
+
+        let existingData=await User.find({email:email})
+        
+        if(existingData.length>0){
+            res.send({error:`${email} aleady`})
+
+        }else{
+             let user=new User({
+            username:username,
+            email:email,
+            password:password
+        })
+        user.save()
+        res.send(user)
+        }
+       
     }
 
 

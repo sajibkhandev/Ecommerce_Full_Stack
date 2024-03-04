@@ -1,6 +1,6 @@
 
 const passwordRegex=(password)=>{
-    if(!(password.length<6)){
+    if(password.length<6){
         return true
     }else {
         return false
